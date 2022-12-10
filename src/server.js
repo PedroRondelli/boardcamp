@@ -1,22 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import pkg from "pg";
+import { categorieValidation } from "../middlewares/categories.middleware.js";
+import { insertCategories } from "../controllers/categories.controller.js";
+import { connection } from "../database.js";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 dotenv.config();
-
-const { Pool } = pkg;
-
-const connection = new Pool({
-  host: "localhost",
-  port: 5432,
-  user: "postgres",
-  password: "123456789",
-  database: "boardcamp",
-});
 
 app.get("/categories", async (req, res) => {
   try {
@@ -26,5 +18,7 @@ app.get("/categories", async (req, res) => {
     console.log(erro);
   }
 });
+
+app.post("/categories", categorieValidation, insertCategories);
 
 app.listen(4000, () => console.log("Hello Bitch"));
