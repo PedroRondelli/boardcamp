@@ -20,3 +20,12 @@ export async function insertCategories(req, res) {
     console.log(erro);
   }
 }
+
+export async function getCategories(req,res){
+  try {
+    const categories = await connection.query("SELECT * FROM categories;");
+    res.send(categories.rows);
+  } catch (erro) {
+    console.log(erro);
+  }
+}
