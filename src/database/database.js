@@ -1,8 +1,8 @@
-// const connection = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-// });
 import pkg from "pg";
+// import dotenv from "dotenv";
 const { Pool } = pkg;
+
+// dotenv.config();
 
 export const connection = new Pool({
   host: "localhost",
@@ -11,3 +11,4 @@ export const connection = new Pool({
   password: "123456789",
   database: "boardcamp",
 });
+
