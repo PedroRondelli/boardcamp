@@ -31,6 +31,6 @@ export async function validateGame(req, res, next) {
   if (nameExist.rows.length > 0) {
     return res.sendStatus(409);
   }
-  console.log("Ta tudo certo");
+
   next();
 }
