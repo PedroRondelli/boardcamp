@@ -5,4 +5,6 @@ const routers = Router();
 
 routers.get("/customers", getCustomers);
 
+routers.get("customers/:id",getCustomersById)
+
 export default routers;
