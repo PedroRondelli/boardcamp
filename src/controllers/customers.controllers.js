@@ -25,6 +25,9 @@ export async function getCustomersById(req, res) {
       "SELECT * FROM customers WHERE id=$1",
       [id]
     );
+    if (customer.rows.length === 0) {
+      return res.sendStatus(404);
+    }
     return res.send(customer.rows[0]);
   } catch (error) {
     console.log(error);
