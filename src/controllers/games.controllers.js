@@ -3,7 +3,7 @@ import { connection } from "../database/database.js";
 export async function getGames(req, res) {
   try {
     const games = await connection.query("SELECT * FROM games;");
-    console.log(games);
+   
     const searchTerm = req.query.name;
     if (searchTerm) {
       const gamesFounded = games.rows.filter((game) =>

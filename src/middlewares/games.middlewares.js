@@ -13,7 +13,6 @@ export async function validateGame(req, res, next) {
   const validation = gameSchema.validate(req.body);
 
   if (validation.error) {
-    console.log("foi o schema");
     console.log(validation.error);
     return res.sendStatus(400);
   }
@@ -23,15 +22,13 @@ export async function validateGame(req, res, next) {
     [categoryId]
   );
   if (categoryExist.rows.length === 0) {
-    console.log("foi a categoria");
     return res.sendStatus(400);
   }
   const nameExist = await connection.query(
-    "SELECT * FROM games WHERE name=$1",
+    "SELECT * FROM games WHERE LOWER(name)=LOWER($1)",
     [name]
   );
   if (nameExist.rows.length > 0) {
-    console.log("foi o nome");
     return res.sendStatus(409);
   }
   console.log("Ta tudo certo");
