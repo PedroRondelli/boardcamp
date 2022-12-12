@@ -10,10 +10,10 @@ const gameSchema = joi.object({
 });
 
 export async function validateGame(req, res, next) {
-  const validation = gameSchema.validate(req.body);
+  const validation = gameSchema.validate(req.body, { abortEarly: false });
 
   if (validation.error) {
-    console.log(validation.error);
+    console.log(validation.error.message);
     return res.sendStatus(400);
   }
   const { categoryId, name } = req.body;
