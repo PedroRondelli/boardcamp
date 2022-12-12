@@ -5,12 +5,12 @@ export async function insertCategories(req, res) {
   try {
     const categorieExist = await connection.query(
       "SELECT * FROM categories WHERE name=$1",
-      [name]
+      [name.toLowerCase()]
     );
 
     if (categorieExist.rows.length === 0) {
       await connection.query("INSERT INTO categories (name) VALUES ($1) ;", [
-        name,
+        name.toLowerCase(),
       ]);
       return res.sendStatus(201);
     } else {
