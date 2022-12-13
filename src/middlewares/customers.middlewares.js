@@ -17,10 +17,13 @@ export async function validateCustomer(req, res, next) {
   if (validation.error) {
     return res.sendStatus(400);
   }
-  const { cpf } = req.body;
+  const { cpf, phone } = req.body;
 
-  if (cpf.length !== 11 && cpf.length !== 10) {
-    console.log("cpf incompleto");
+  if (cpf.length !== 11) {
+    return res.sendStatus(400);
+  }
+
+  if (phone.length !== 11 && phone.length !== 10) {
     return res.sendStatus(400);
   }
 
@@ -36,4 +39,41 @@ export async function validateCustomer(req, res, next) {
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function validateUpdateCustomer(req, res, next) {
+  const validation = customerSchema.validate(req.body, { abortEarly: false });
+
+  if (validation.error) {
+    return res.sendStatus(400);
+  }
+  const { cpf, phone } = req.body;
+
+  if (cpf.length !== 11) {
+    return res.sendStatus(400);
+  }
+
+  if (phone.length !== 11 && phone.length !== 10) {
+    return res.sendStatus(400);
+  }
+  const { id } = req.params;
+
+  try {
+    const customers = await connection.query(
+      "SELECT * FROM customers WHERE cpf=$1 ;",
+      [cpf]
+    );
+    const customersWithCpf = customers.rows;
+    const cpfAlreadyExist = customersWithCpf.filter(
+      (customer) => customer.id !== id && customer.cpf === cpf
+    );
+    if (cpfAlreadyExist.length > 0) {
+      return res.sendStatus(409);
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+
+  next();
 }

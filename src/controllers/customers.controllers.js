@@ -46,3 +46,20 @@ export async function postCustomers(req, res) {
     console.log(erro);
   }
 }
+
+export async function updateCustomers(req, res) {
+  const { name, phone, cpf, birthday } = req.body;
+  const { id } = req.params;
+  try {
+    const updatePromise = await connection.query(
+      "UPDATE customers SET name=$1,phone=$2,cpf=$3,birthday=$4 WHERE id=$5;",
+      [name, phone, cpf, birthday, id]
+    );
+    if (updatePromise.rows.length === 0) {
+      return res.sendStatus(404);
+    }
+    res.sendStatus(200);
+  } catch (erro) {
+    console.log(erro);
+  }
+}
