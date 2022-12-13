@@ -65,12 +65,11 @@ export async function validateUpdateCustomer(req, res, next) {
     );
     const customersWithCpf = customers.rows;
     const cpfAlreadyExist = customersWithCpf.filter(
-      (customer) => customer.id !== id && customer.cpf === cpf
+      (customer) => customer.id !== Number(id) && customer.cpf === cpf
     );
     if (cpfAlreadyExist.length > 0) {
       return res.sendStatus(409);
     }
-    
   } catch (error) {
     console.log(error);
   }

@@ -55,9 +55,11 @@ export async function updateCustomers(req, res) {
       "UPDATE customers SET name=$1,phone=$2,cpf=$3,birthday=$4 WHERE id=$5;",
       [name, phone, cpf, birthday, id]
     );
-    if (updatePromise.rows.length === 0) {
+    if (updatePromise.rowCount === 0) {
+      // console.log(updatePromise);
       return res.sendStatus(404);
     }
+
     res.sendStatus(200);
   } catch (erro) {
     console.log(erro);
